@@ -1,0 +1,20 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/assets/*", "/mfe-catalogo/*", "/mfe-avaliacoes/*", "/*.{svg,png,jpg,ico,css,js,json}"]
+  },
+  "routes": [
+    {
+      "route": "/mfe-*/remoteEntry.js",
+      "headers": { "cache-control": "no-cache" }
+    }
+  ],
+  "globalHeaders": {
+    "Access-Control-Allow-Origin": "*",
+    "X-Content-Type-Options": "nosniff"
+  },
+  "mimeTypes": {
+    ".json": "application/json",
+    ".js": "text/javascript"
+  }
+}

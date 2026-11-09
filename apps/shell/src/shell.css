@@ -1,0 +1,192 @@
+/* Shell — tokens de design compartilhados (os MFEs leem estas variáveis). */
+:root {
+  --mh-bg: #1f1833;
+  --mh-surface: #2b2246;
+  --mh-line: #43386a;
+  --mh-text: #f2efe8;
+  --mh-muted: #b3a9cb;
+  --mh-bulb: #f0b429;
+  --mh-ticket: #5cc8b2;
+  --mh-danger: #f07167;
+  --mh-display: "Big Shoulders Display Variable", "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --mh-body: "Figtree Variable", "Figtree", system-ui, sans-serif;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--mh-bg);
+  color: var(--mh-text);
+  font-family: var(--mh-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--mh-bulb);
+  outline-offset: 2px;
+}
+
+.shell {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.shell-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 2rem;
+  padding: 1.25rem 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--mh-line);
+}
+.shell-logo {
+  font-family: var(--mh-display);
+  font-weight: 900;
+  font-size: 1.9rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  color: var(--mh-bulb);
+}
+.shell-nav {
+  display: flex;
+  gap: 1.25rem;
+}
+.shell-nav a {
+  text-decoration: none;
+  color: var(--mh-muted);
+  font-weight: 500;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+}
+.shell-nav a.active {
+  color: var(--mh-text);
+  border-bottom-color: var(--mh-bulb);
+}
+.shell-toggle {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--mh-muted);
+  cursor: pointer;
+}
+.shell-toggle input {
+  accent-color: var(--mh-bulb);
+  width: 1rem;
+  height: 1rem;
+}
+
+.shell-main {
+  min-height: 60vh;
+}
+.shell-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20rem;
+  gap: 2.5rem;
+  align-items: start;
+}
+.shell-reviews {
+  margin-top: 2.5rem;
+  max-width: 48rem;
+}
+.shell-back {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  color: var(--mh-muted);
+  text-underline-offset: 3px;
+}
+.shell-muted {
+  color: var(--mh-muted);
+}
+
+.shell-fallback {
+  padding: 1.25rem;
+  border: 1px dashed var(--mh-danger);
+  border-radius: 6px;
+}
+.shell-fallback p {
+  margin: 0 0 0.75rem;
+}
+.shell-fallback button {
+  font: inherit;
+  padding: 0.45rem 0.9rem;
+  border-radius: 4px;
+  border: 1px solid var(--mh-line);
+  background: transparent;
+  color: var(--mh-text);
+  cursor: pointer;
+}
+
+/* "Mostrar microfrontends": contorna cada área com o nome do remote que a renderiza */
+.shell-slot {
+  position: relative;
+}
+.shell--show-modules .shell-slot {
+  outline: 2px dashed var(--mfe-color);
+  outline-offset: 6px;
+  border-radius: 2px;
+  margin-top: 1.75rem;
+}
+.shell--show-modules .shell-slot::before {
+  content: attr(data-mfe-label);
+  position: absolute;
+  top: -1.9rem;
+  left: -6px;
+  padding: 0.1rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: var(--mfe-color);
+  color: var(--mh-bg);
+}
+[data-mfe="catalogo"] {
+  --mfe-color: var(--mh-bulb);
+}
+[data-mfe="avaliacoes"] {
+  --mfe-color: var(--mh-ticket);
+}
+
+.shell-notfound h1 {
+  font-family: var(--mh-display);
+  font-size: 3rem;
+  margin: 0 0 0.5rem;
+}
+
+.shell-footer {
+  margin-top: 4rem;
+  padding: 1.5rem 0 2.5rem;
+  border-top: 1px solid var(--mh-line);
+  color: var(--mh-muted);
+  font-size: 0.85rem;
+}
+.shell-footer p {
+  margin: 0.2rem 0;
+}
+
+@media (max-width: 900px) {
+  .shell-columns {
+    grid-template-columns: 1fr;
+  }
+  .shell-toggle {
+    margin-left: 0;
+  }
+}

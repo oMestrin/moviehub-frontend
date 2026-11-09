@@ -1,0 +1,17 @@
+{
+  "name": "moviehub-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MovieHub — microfrontend React com Module Federation (shell + MFE Catálogo + MFE Avaliações), consumindo apenas o BFF",
+  "type": "module",
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/preview.mjs",
+    "test": "node --test --test-reporter=spec \"test/*.test.js\""
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
