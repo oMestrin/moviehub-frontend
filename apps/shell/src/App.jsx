@@ -41,7 +41,7 @@ export default function App() {
       </main>
 
       <footer className="shell-footer">
-        <p>MovieHub, PJBL de Arquitetura de Soluções com Cloud, PUCPR.</p>
+        <p>MovieHub, PJBL de Arquitetura e Soluções Cloud, PUCPR.</p>
         <p>Brayan Calisto dos Santos, Caio Gabriel Silva, Juliana Flores de Lima e Leandro de Freitas Pires.</p>
       </footer>
     </div>
