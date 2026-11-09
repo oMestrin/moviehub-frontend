@@ -24,11 +24,11 @@ Navegador
 - **Comunicação entre MFEs** por eventos do navegador: o MFE Avaliações emite `moviehub:reviews-changed` e o MFE Catálogo recarrega o score na hora; o Catálogo emite `moviehub:movies-changed` ao cadastrar ou remover filmes.
 - **Falha isolada:** cada remote fica dentro de um Error Boundary no shell; se um deles sair do ar, só a sua área mostra o aviso.
 - **Mostrar microfrontends:** a opção no cabeçalho contorna cada área com o nome do MFE que a renderiza.
-- **Deploy:** um único Azure Static Web App com o shell na raiz e os remotes em `/mfe-catalogo/` e `/mfe-avaliacoes/`. Os endereços dos remotes também podem ser configurados para publicação separada (`VITE_REMOTE_CATALOGO_URL`, `VITE_REMOTE_AVALIACOES_URL`).
+- **Deploy:** um único site estático no Azure Storage (contêiner `$web`) com o shell na raiz e os remotes em `/mfe-catalogo/` e `/mfe-avaliacoes/`. O documento de erro do site é o `index.html`, para as rotas do React funcionarem ao recarregar a página. Os endereços dos remotes também podem ser configurados para publicação separada (`VITE_REMOTE_CATALOGO_URL`, `VITE_REMOTE_AVALIACOES_URL`).
 
 ## Tecnologias
 
-React 19, Vite 8, @module-federation/vite, React Router 7, Azure Static Web Apps, GitHub Actions.
+React 19, Vite 8, @module-federation/vite, React Router 7, Azure Storage (site estático), GitHub Actions.
 
 ## Como executar
 
@@ -56,10 +56,10 @@ npm test           # isolamento entre MFEs, exposições do Module Federation, u
 
 ```bash
 npm run build      # gera dist/ com o shell e os dois remotes
-npm run preview    # serve o dist/ em http://localhost:4173 como o Static Web Apps
+npm run preview    # serve o dist/ em http://localhost:4173 como o site estático
 ```
 
-O workflow `.github/workflows/azure-static-web-apps.yml` publica a cada push na `main` (variável `VITE_BFF_URL` e secrets `VITE_APIM_SUBSCRIPTION_KEY` e `AZURE_STATIC_WEB_APPS_API_TOKEN` no repositório).
+O workflow `.github/workflows/azure-storage-static-website.yml` publica no contêiner `$web` do Storage a cada push na `main` (variável `VITE_BFF_URL` e secrets `VITE_APIM_SUBSCRIPTION_KEY` e `AZURE_STORAGE_CONNECTION_STRING` no repositório). Sem o secret do Storage, o workflow só roda os testes.
 
 ## Repositórios do MovieHub
 

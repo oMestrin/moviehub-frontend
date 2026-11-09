@@ -1,0 +1,35 @@
+name: Deploy — Azure Storage (site estático)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      HAS_STORAGE_CS: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Testes de arquitetura do microfrontend
+        run: npm test
+      - name: Publicação ignorada (secret AZURE_STORAGE_CONNECTION_STRING não configurado)
+        if: env.HAS_STORAGE_CS != 'true'
+        run: echo "O frontend foi publicado pelo deploy.sh. Para publicar pelo CI, configure AZURE_STORAGE_CONNECTION_STRING, VITE_APIM_SUBSCRIPTION_KEY e a variável VITE_BFF_URL."
+      - name: Build (shell + remotes num único pacote)
+        if: env.HAS_STORAGE_CS == 'true'
+        run: npm run build
+        env:
+          VITE_BFF_URL: ${{ vars.VITE_BFF_URL }}
+          VITE_APIM_SUBSCRIPTION_KEY: ${{ secrets.VITE_APIM_SUBSCRIPTION_KEY }}
+      - name: Publicar no site estático do Storage
+        if: env.HAS_STORAGE_CS == 'true'
+        run: az storage blob upload-batch --source dist --destination '$web' --overwrite --only-show-errors -o none
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
